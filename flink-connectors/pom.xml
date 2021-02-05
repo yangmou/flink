@@ -27,7 +27,7 @@ under the License.
 		<groupId>org.apache.flink</groupId>
 		<artifactId>flink-parent</artifactId>
 		<version>1.13-SNAPSHOT</version>
-		<relativePath>..</relativePath>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 
@@ -57,11 +57,13 @@ under the License.
 		<module>flink-connector-base</module>
 		<module>flink-file-sink-common</module>
 		<module>flink-connector-files</module>
+		<module>flink-connector-kudu</module>
 	</modules>
 
 	<!-- override these root dependencies as 'provided', so they don't end up
 		in the jars-with-dependencies (uber jars) of connectors and
 		user programs that depend on the connectors -->
+
 
 	<dependencies>
 		<dependency>
@@ -83,7 +85,15 @@ under the License.
 
 	<!-- See main pom.xml for explanation of profiles -->
 	<profiles>
-
+		<profile>
+			<id>disable-javadoc-doclint</id>
+			<activation>
+				<jdk>[1.8,)</jdk>
+			</activation>
+			<properties>
+				<additionalparam>-Xdoclint:none</additionalparam>
+			</properties>
+		</profile>
 		<!-- Create SQL Client uber jars by default -->
 		<profile>
 			<id>sql-jars</id>
@@ -103,6 +113,7 @@ under the License.
 				<module>flink-sql-connector-hive-3.1.2</module>
 				<module>flink-sql-connector-kafka</module>
 				<module>flink-sql-connector-kinesis</module>
+<!--				<module>flink-connector-kudu</module>-->
 			</modules>
 		</profile>
 	</profiles>
